@@ -10,6 +10,16 @@ WORKDIR /app
 EXPOSE 8000
 
 ARG DEV=false
+
+RUN apk add --update --no-cache \
+    postgresql-libs \
+    postgresql-client \
+    # Temporary build deps
+    --virtual .tmp-build-deps \
+    build-base \
+    postgresql-dev \
+    musl-dev
+
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     /py/bin/pip install -r /tmp/requirements.txt && \
